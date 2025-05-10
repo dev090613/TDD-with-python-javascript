@@ -31,6 +31,7 @@ class NewVisitorTest(LiveServerTestCase):
                 if time.time() - start_time > MAX_WAIT:
                     raise
                 time.sleep(0.5)
+
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # Edith starts a new to-do lists
         self.browser.get(self.live_server_url)
@@ -105,3 +106,17 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 페이지가 다시 업데이트되고, 리스트에는 두 개의 항목
         # 그녀는 자러 간다
+
+    def test_layout_and_styling(self):
+
+        self.browser.get(self.live_server_url)
+
+        # Her browser window is set to a very specific size
+        self.browser.set_window_size(1024, 768)
+
+        inputbox = self.browser.find_element(By.ID, "id_new_item")
+        self.assertAlmostEqual(
+            inputbox.location["x"] + inputbox.size["width"] / 2,
+            512,
+            delta=10,
+        )
