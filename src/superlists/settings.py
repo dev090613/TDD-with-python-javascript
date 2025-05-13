@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+
 import os
 from pathlib import Path
 
@@ -24,7 +25,7 @@ if "DJANGO_DEBUG_FALSE" in os.environ:
     ALLOWED_HOSTS = [os.environ["DJANGO_ALLOWED_HOST"]]
 else:
     DEBUG = True
-    SECRET_KEY = ")uj!m!@(131ii+ro2pzi#=$o^5823ux7pz5fy-9vx#=@d$h5y&" 
+    SECRET_KEY = ")uj!m!@(131ii+ro2pzi#=$o^5823ux7pz5fy-9vx#=@d$h5y&"
     ALLOWED_HOSTS = []
 
 
@@ -120,3 +121,15 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "loggers": {
+        "root": {"handlers": ["console"], "level": "INFO"},
+    },
+}
