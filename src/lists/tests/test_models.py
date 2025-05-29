@@ -4,34 +4,18 @@ from django.test import TestCase
 from lists.models import Item, List
 
 
-class ListAndItemModelTest(TestCase):
+class ItemModelTest(TestCase):
 
-    def test_saving_and_retrieving_items(self):
-        mylist = List()
-        mylist.save()
+    def test_default_text(self):
+        item = Item()
+        self.assertEqual(item.text, "")
 
-        first_item = Item()
-        first_item.text = "The first (ever) list item"
-        first_item.list = mylist
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = "Item the second"
-        second_item.list = mylist
-        second_item.save()
-
-        saved_lists = List.objects.get()
-        self.assertEqual(saved_lists, mylist)
-
-        saved_items = Item.objects.all()
-        self.assertEqual(saved_items.count(), 2)
-
-        first_item = saved_items[0]
-        second_item = saved_items[1]
-        self.assertEqual(first_item.text, "The first (ever) list item")
-        self.assertEqual(first_item.list, mylist)
-        self.assertEqual(second_item.text, "Item the second")
-        self.assertEqual(second_item.list, mylist)
+    def test_item_is_related_to_list(self):
+        mylist = List.objects.create()
+        item = Item()
+        item.list = mylist
+        item.save()
+        self.assertIn(item, mylist.item_set.all())
 
     def test_cannot_save_null_list_items(self):
         mylist = List.objects.create()
@@ -44,6 +28,23 @@ class ListAndItemModelTest(TestCase):
         item = Item(list=mylist, text="")
         with self.assertRaises(ValidationError):
             item.full_clean()
+
+    def test_duplicate_items_invalid(self):
+        mylist = List.objects.create()
+        Item.objects.create(list=mylist, text="blah")
+        with self.assertRaises(ValidationError):
+            item = Item(list=mylist, text="blah")
+            item.full_clean()
+
+    def test_CAN_save_same_item_to_different_lists(self):
+        list1 = List.objects.create()
+        list2 = List.objects.create()
+        Item.objects.create(list=list1, text="blah")
+        item = Item.objects.create(list=list2, text="blah")
+        item.full_clean()  # Should not raise
+
+
+class ListModelTest(TestCase):
 
     def test_get_absolute_url(self):
         mylist = List.objects.create()

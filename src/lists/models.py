@@ -14,3 +14,6 @@ class Item(models.Model):
         default=None,
         on_delete=models.CASCADE,
     )
+
+    class Meta:
+        unique_together = ("text", "list")
