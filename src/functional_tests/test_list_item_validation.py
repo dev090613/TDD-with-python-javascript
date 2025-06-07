@@ -12,12 +12,18 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys(Keys.ENTER)
 
         self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_text:invalid")
+            lambda: self.browser.find_element(
+                By.CSS_SELECTOR,
+                "#id_text:invalid",
+            )
         )
 
         self.get_item_input_box().send_keys("Purchase milk")
         self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_text:valid")
+            lambda: self.browser.find_element(
+                By.CSS_SELECTOR,
+                "#id_text:valid",
+            )
         )
 
         self.get_item_input_box().send_keys(Keys.ENTER)
@@ -26,12 +32,18 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("1: Purchase milk")
         self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_text:invalid")
+            lambda: self.browser.find_element(
+                By.CSS_SELECTOR,
+                "#id_text:invalid",
+            )
         )
 
         self.get_item_input_box().send_keys("Make tea")
         self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_text:valid")
+            lambda: self.browser.find_element(
+                By.CSS_SELECTOR,
+                "#id_text:valid",
+            )
         )
         self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("2: Make tea")
@@ -62,7 +74,7 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for(
             lambda: self.assertTrue(
-                self.get_error_element().is_displayed()
+                self.get_error_element().is_displayed(),
             )
         )
 
@@ -70,10 +82,12 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys("a")
         self.wait_for(
             lambda: self.assertFalse(
-                self.get_error_element().is_displayed()
+                self.get_error_element().is_displayed(),
             )
         )
 
     def get_error_element(self):
-        return self.browser.find_element(By.CSS_SELECTOR, ".invalid-feedback")
-
+        return self.browser.find_element(
+            By.CSS_SELECTOR,
+            ".invalid-feedback",
+        )
