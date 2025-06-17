@@ -8,6 +8,7 @@ from lists.forms import (
     ExistingListItemForm,
 )
 
+from lxml import html
 
 class HomePageTest(TestCase):
 
@@ -19,6 +20,19 @@ class HomePageTest(TestCase):
     def test_home_page_users_item_form(self):
         response = self.client.get("/")
         self.assertIsInstance(response.context["form"], ItemForm)
+
+    def test_renders_input_form(self):
+        mylist = List.objects.create()
+        url = f"/lists/{mylist.id}/"
+        response = self.client.get(url)
+
+        parsed = html.fromstring(response.content)
+        forms = parsed.cssselect("form[method=POST]")
+        self.assertIn(url, [form.get("action") for form in forms])
+        [form] = [form for form in forms if form.get("action") == url]
+
+        inputs = form.cssselect("input")
+        self.assertIn("text", [input.get("name") for input in inputs])
 
 
 class ListViewTest(TestCase):

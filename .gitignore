@@ -3,3 +3,4 @@ src/staticfiles/
 *.sqlite3
 __pycache__/
 src/db.sqlite3
+.env

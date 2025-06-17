@@ -20,12 +20,12 @@ class LoginTest(FunctionalTest):
         )
 
         self.wait_for(
-                lambda: self.assertIn(
-                    "Check your email",
-                    self.browser.find_element(By.CSS_SELECTOR, "body").text,
-                    )
-                )
-        
+            lambda: self.assertIn(
+                "Check your email",
+                self.browser.find_element(By.CSS_SELECTOR, "body").text,
+            )
+        )
+
         email = mail.outbox.pop()
         self.assertIn(TEST_EMAIL, email.to)
         self.assertEqual(email.subject, SUBJECT)
@@ -41,8 +41,8 @@ class LoginTest(FunctionalTest):
         print(url)
 
         self.wait_for(
-                lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
-                )
+            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
+        )
 
         navbar = self.browser.find_element(By.CSS_SELECTOR, ".navbar")
         self.assertIn(TEST_EMAIL, navbar.text)
