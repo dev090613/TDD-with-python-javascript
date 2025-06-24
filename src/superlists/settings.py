@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # apps
     "lists",
     "accounts",
+    "functional_tests",
 ]
 
 AUTH_USER_MODEL = "accounts.User"

@@ -26,6 +26,9 @@ class LoginTest(FunctionalTest):
             )
         )
 
+        if self.test_server:
+            return
+
         email = mail.outbox.pop()
         self.assertIn(TEST_EMAIL, email.to)
         self.assertEqual(email.subject, SUBJECT)

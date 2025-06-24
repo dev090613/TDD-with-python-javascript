@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM --platform=linux/arm64 python:3.11-slim
 
 RUN addgroup --system nonroot && adduser --system --no-create-home --disabled-password --group nonroot
 
